@@ -46,34 +46,34 @@ include Macros.asm
 	_console0     	db 0ah,0dh,               "============ CONSOLA ============ $"
 	_console1       db                        ">> $"
 
-; ================ SEGMENTO DE PROC ================
+	; ================ SEGMENTO DE PROC ================
 
-; **************************** [IDENTIFICADOR] **************************** 
-identificador proc far
-    GetPrint _cadena0
-    GetPrint _cadena1
-    GetPrint _cadena2
-    GetPrint _cadena3
-    GetPrint _cadena4
-    GetPrint _cadena5
-    GetPrint _cadena6
-    GetPrint _cadena7
-    ret
-identificador endp
+	; **************************** [IDENTIFICADOR] **************************** 
+	identificador proc far
+	    GetPrint _cadena0
+	    GetPrint _cadena1
+	    GetPrint _cadena2
+	    GetPrint _cadena3
+	    GetPrint _cadena4
+	    GetPrint _cadena5
+	    GetPrint _cadena6
+	    GetPrint _cadena7
+	    ret
+	identificador endp
 
-menu proc far
-	GetPrint _menu1
-	GetPrint _menu2
-	GetPrint _menu3
-    GetPrint _salto
-    GetPrint _choose
-    ret
-menu endp
+	menu proc far
+		GetPrint _menu1
+		GetPrint _menu2
+		GetPrint _menu3
+	    GetPrint _salto
+	    GetPrint _choose
+	    ret
+	menu endp
 
-jump proc far
-	GetPrint _salto
-	ret
-jump endp
+	jump proc far
+		GetPrint _salto
+		ret
+	jump endp
 
 ; ================ SEGMENTO DE CODIGO ================
 .code 
