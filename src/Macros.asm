@@ -27,7 +27,7 @@ endm
 
 ; ************** [RECORRIDO] **************
 
-GetShow macro txt
+GetShow macro txt, operator
 	local Lsalida, Lh, Lo, Lw, Lsave, Lpalabra, Lsalida2, Lsalida3
 	
 	push ax
@@ -38,83 +38,83 @@ GetShow macro txt
 	xor di, di 
 	xor ax, ax
 
-	cmp _inputMax[si], 73H ; Codigo ASCCI [s -> Hexadecimal]
+	cmp txt[si], 73H ; Codigo ASCCI [s -> Hexadecimal]
     je Lh
-	cmp _inputMax[si], 53H ; Codigo ASCCI [S -> Hexadecimal]
+	cmp txt[si], 53H ; Codigo ASCCI [S -> Hexadecimal]
     je Lh	
     jmp Lsalida	
 
     Lh:	
 
     	inc si
-    	cmp _inputMax[si], 68H ; Codigo ASCCI [h -> Hexadecimal]
+    	cmp txt[si], 68H ; Codigo ASCCI [h -> Hexadecimal]
 	    je Lo
-		cmp _inputMax[si], 48H ; Codigo ASCCI [H -> Hexadecimal]
+		cmp txt[si], 48H ; Codigo ASCCI [H -> Hexadecimal]
 	    je Lo
     	jmp Lsalida
 
 	    Lo:
 
     		inc si
-	    	cmp _inputMax[si], 6FH ; Codigo ASCCI [o -> Hexadecimal]
+	    	cmp txt[si], 6FH ; Codigo ASCCI [o -> Hexadecimal]
 		    je Lw
-			cmp _inputMax[si], 4FH ; Codigo ASCCI [O -> Hexadecimal]
+			cmp txt[si], 4FH ; Codigo ASCCI [O -> Hexadecimal]
 		    je Lw
 	    	jmp Lsalida
 
 	    	Lw:
 
 	    		inc si
-		    	cmp _inputMax[si], 77H ; Codigo ASCCI [w -> Hexadecimal]
+		    	cmp txt[si], 77H ; Codigo ASCCI [w -> Hexadecimal]
 			    je Lsave
-				cmp _inputMax[si], 57H ; Codigo ASCCI [W -> Hexadecimal]
+				cmp txt[si], 57H ; Codigo ASCCI [W -> Hexadecimal]
 			    je Lsave
 		    	jmp Lsalida
 
 				Lsave:
 
 					inc si
-					cmp _inputMax[si], 20H ; Codigo ASCCI [space -> Hexadecimal]
+					cmp txt[si], 20H ; Codigo ASCCI [space -> Hexadecimal]
 					je Lsave
 					xor ax, ax
-					mov al, _inputMax[si]
-					mov _operator[DI], al
+					mov al, txt[si]
+					mov operator[DI], al
 					jmp Lpalabra
 
 				Lpalabra:
 					inc si
 					INC DI
 					xor ax, ax
-					mov bh, _inputMax[si]
-					;mov _operator[DI], bh ; error se cicla
+					mov al, txt[si]
+					
 				
-					cmp _inputMax[si], 24H ; Codigo ASCCI [$ -> Hexadecimal]
+					cmp txt[si], 24H ; Codigo ASCCI [$ -> Hexadecimal]
 					je Lsalida
-					cmp _inputMax[si], 0Ah ; Codigo ASCCI [\n -> Hexadecimal]
+					cmp txt[si], 0Ah ; Codigo ASCCI [\n -> Hexadecimal]
 					je Lsalida2
-					cmp _inputMax[si], 08H ; Codigo ASCCI [\r -> Hexadecimal]
+					cmp txt[si], 08H ; Codigo ASCCI [\r -> Hexadecimal]
 					je Lsalida3
-					cmp _inputMax[si], 20H ; Codigo ASCCI [space -> Hexadecimal]
+					cmp txt[si], 20H ; Codigo ASCCI [space -> Hexadecimal]
 					je Lsalida3
 					
-					
+					mov operator[DI], al ; error se cicla
 					
 					jmp Lpalabra
 
 	Lsalida2:
 
-		;mov _operator[di], 24h
+		mov operator[DI], 24h
 		GetPrint _salto
-		;GetPrint _inputMax
-		;GetPrint _operator
+		;GetPrint txt
+		GetPrint operator
 		GetPrint _cadena7
 
 		jmp Lsalida
 
 	Lsalida3:
-		;mov _operator[di], 24h
+		mov operator[DI], 24h
 		GetPrint _salto
-		GetPrint _operator
+		GetPrint operator
 		GetPrint _cadena5
 
 		jmp Lsalida

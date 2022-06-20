@@ -57,8 +57,8 @@ include File.asm
 	_error7         db 0ah,0dh,               "> Error al crear el Archivo",                  "$"
 
 	; ************** [INPUT] **************
-	_inputMax       db 10 dup(' '), "$" 
-	_operator       db 10 dup(' '), "$" 
+	_inputMax       db 50 dup(' '), "$"
+	_operator       db 50 dup(' '), "$" 
 
 	; ************** [FILE] **************
 	_bufferInput    db 50 dup('$')
@@ -144,7 +144,7 @@ include File.asm
 	    	CALL sendConsole
 
 	    	GetInputMax _inputMax
-	    	GetShow _inputMax
+	    	GetShow _inputMax, _operator
 
 	    	jmp LMenu
 
