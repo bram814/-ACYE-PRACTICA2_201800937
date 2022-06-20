@@ -56,7 +56,11 @@ include File.asm
 	_error6         db 0ah,0dh,               "> Error en el Archivo",                  "$"
 	_error7         db 0ah,0dh,               "> Error al crear el Archivo",                  "$"
 
-	; file
+	; ************** [INPUT] **************
+	_inputMax       db 10 dup(' '), "$" 
+	_operator       db 10 dup(' '), "$" 
+
+	; ************** [FILE] **************
 	_bufferInput    db 50 dup('$')
 	_handleInput    dw ? 
 	_bufferInfo     db 2000 dup('$')
@@ -90,6 +94,13 @@ include File.asm
 		GetPrint _salto
 		ret
 	jump endp
+
+	sendConsole proc far
+		GetPrint _console0
+		GetPrint _salto
+		GetPrint _console1
+		ret
+	sendConsole endp
 
 ; ================ SEGMENTO DE CODIGO ================
 .code 
@@ -130,7 +141,11 @@ include File.asm
 
 	    LConsole:
 	    	GetPrint _salto
-	    	GetPrint _bufferInfo
+	    	CALL sendConsole
+
+	    	GetInputMax _inputMax
+	    	GetShow _inputMax
+
 	    	jmp LMenu
 
 
