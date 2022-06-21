@@ -36,6 +36,8 @@ include File.asm
 
 	; ************** [CHOOSE] **************
 	_salto         	db 0ah,0dh,               "$"
+	_true          db 0ah,0dh,               "true$"
+	_false         db 0ah,0dh,               "false$"
 	_choose        	db        	              "Escoga Opcion: $"
 
 	; ************** [CHARGE FILE] **************
@@ -59,11 +61,15 @@ include File.asm
 	; ************** [INPUT] **************
 	_inputMax       db 50 dup(' '), "$"
 	_operator       db 50 dup(' '), "$" 
+	_operatorAux    db 50 dup('$') 
+	_aritmethic     db 50 dup(' '), "$" 
+	_num1S    		db 50 dup(' '), "$" 
+	_num2S    		db 50 dup(' '), "$" 
 
 	; ************** [FILE] **************
 	_bufferInput    db 50 dup('$')
 	_handleInput    dw ? 
-	_bufferInfo     db 2000 dup('$')
+	_bufferInfo     db 50000 dup('$')
 	contadorBuffer  dw 0 ; Contador para todos los WRITE FILE, para escribir sin que se vean los $
 
 	; ================ SEGMENTO DE PROC ================
@@ -106,8 +112,9 @@ include File.asm
 .code 
 	main proc
 
-		MOV dx, @data
-		MOV ds, dx
+		MOV AX, @data ; segmento de datos
+		MOV DS, AX ; mover a ds
+		MOV ES, AX
 
 		CALL identificador
 
@@ -133,18 +140,20 @@ include File.asm
 	    	GetPrint _file1
 	    	CALL jump
 	    	
-	    	GetRoot     _bufferInput                                        ; Capturar Path
+	    	GetRoot _bufferInput                                        ; Capturar Path
+
 	        GetOpenFile _bufferInput,_handleInput                          ; Abrir file
 	        GetReadFile _handleInput,_bufferInfo,SIZEOF _bufferInfo 
-	        GetPrint _file2      
+	        GetPrint _file2   
+	        GetCloseFile _handleInput   
 	        jmp LMenu
 
 	    LConsole:
+	    	GetPrint _bufferInfo
 	    	GetPrint _salto
 	    	CALL sendConsole
-
 	    	GetInputMax _inputMax
-	    	GetShow _inputMax, _operator
+	    	GetShow _inputMax, _operator, _bufferInfo, _operatorAux
 
 	    	jmp LMenu
 
@@ -175,7 +184,6 @@ include File.asm
 	        jmp Lout
 
 		Lout:
-			GetCloseFile _handleInput
 			MOV ah,4ch
 			int 21h
 

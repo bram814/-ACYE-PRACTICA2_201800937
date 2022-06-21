@@ -1,0 +1,22 @@
+{
+	"Operaciones":
+	[
+		{
+			"Operacion1":{
+				"div":{
+					"#":-30,
+					"#":-2
+				}
+			}
+		},
+		{
+			"Operacion2":{
+				
+				"sub":{
+					"#":-30,
+					"id":"Operacion1"
+				}
+			}
+		}
+	]
+}
