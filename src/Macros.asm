@@ -635,6 +635,26 @@ getCompare macro compare1, compare2
 			jmp Lsalida
 
 		Lmultiplicacion:
+			xor ax, ax
+			String_Int _num1S
+			mov _numero1, ax
+
+			xor ax, ax
+			String_Int _num2S
+			mov _numero2, ax
+
+			mov ax, _numero1
+	        mov bx, _numero2
+	        imul bx
+	        mov _calcuResultado,ax
+	        mov ax,_calcuResultado
+	        Int_String _numResult ; convierte el numero guardado en ax
+	        
+	        GetPrint _salto
+	        GetPrint _RESULT
+	        GetPrint compare1
+	        GetPrint _salto
+	        GetPrint _numResult
 
 			jmp Lsalida
 
