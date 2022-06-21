@@ -129,7 +129,6 @@ Analyzer macro txt, compare, operator
 	xor ax, ax
 
 
-
 	cmp txt[si], 7bh ; Codigo ASCCI [{ -> Hexadecimal]
 	je L0
 
@@ -204,8 +203,8 @@ Analyzer macro txt, compare, operator
 
 		mov operator[di], 24h
 		xor di, di
-		GetPrint _salto
-		GetPrint operator
+		;GetPrint _salto
+		;GetPrint operator
 	
 		jmp L7
 	L7:
@@ -247,8 +246,8 @@ Analyzer macro txt, compare, operator
 	L110:
 		mov _aritmethic[di], 24h
 		xor di, di
-		GetPrint _salto
-		GetPrint _aritmethic
+		;GetPrint _salto
+		;GetPrint _aritmethic
 		jmp L11
 	L11:
 
@@ -289,8 +288,8 @@ Analyzer macro txt, compare, operator
 	L150:
 	mov _num1S[di], 24h
 	xor di, di
-	GetPrint _salto
-	GetPrint _num1S
+	;GetPrint _salto
+	;GetPrint _num1S
 	jmp L15
 
 	L15:
@@ -316,7 +315,7 @@ Analyzer macro txt, compare, operator
 	L170:
 		mov _num1S[di], 24h
 		xor di, di
-		GetPrint _num1S
+		;GetPrint _num1S
 		jmp L17
 
 	L17: ; conca 1° operator
@@ -343,8 +342,8 @@ Analyzer macro txt, compare, operator
 	L180:
 	mov _num2S[di], 24h
 	xor di, di
-	GetPrint _salto
-	GetPrint _num2S
+	;GetPrint _salto
+	;GetPrint _num2S
 	jmp L19
 
 	L19:
@@ -368,9 +367,12 @@ Analyzer macro txt, compare, operator
 	L21:
 		mov _num2S[di], 24h
 		xor di, di
-		GetPrint _num2S
-		jmp L23
+		;GetPrint _num2S
+		jmp L22
 
+	L22:
+		getCompare compare, operator
+		jmp L23
 	L23:
 		inc si
 		cmp txt[si], 7DH ; Codigo ASCCI [} -> Hexadecimal]
@@ -430,10 +432,9 @@ getCompare macro compare1, compare2
 	push si
 	push ax
 
+
 	xor ax, ax
 	xor si, si
-
-
 	mov al, compare1[si]
 	cmp compare2[si], al
 	je L0
@@ -442,21 +443,30 @@ getCompare macro compare1, compare2
 	L0:
 		inc si
 
+		cmp compare2[si], 24h
+		je LE
+
 		xor ax, ax
 		mov al, compare1[si]
-		cmp al, 24h
-		je LE
 		cmp compare2[si], al
 		je L0
 		jne LF
 
+
+		jmp L0
+
 	LE:
-		cmp compare2[si], 24h
-		jne LF
-		GetPrint _true
+		
+		GetPrint _aritmethic
+		GetPrint _salto
+		GetPrint _num1S
+		GetPrint _salto
+		GetPrint _num2S
+		GetPrint _salto
 		jmp Lsalida
 	LF:
 		GetPrint _false
+		GetPrint _salto
 		jmp Lsalida
 	Lsalida:
 		pop ax
