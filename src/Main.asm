@@ -36,9 +36,11 @@ include File.asm
 
 	; ************** [CHOOSE] **************
 	_salto         	db 0ah,0dh,               "$"
-	_true          db 0ah,0dh,               "true$"
-	_false         db 0ah,0dh,               "false$"
+	_true           db 0ah,0dh,               "true$"
+	_false          db 0ah,0dh,               "false$"
 	_choose        	db        	              "Escoga Opcion: $"
+	_RESULT        	db        	              "Resultado de $"
+	TK_DOSPUNTOS  	db 0ah,0dh, ": $"
 
 	; ************** [CHARGE FILE] **************
 	_file0         	db 0ah,0dh,               "============ CARGAR ARCHIVO ============ $"
@@ -65,6 +67,12 @@ include File.asm
 	_aritmethic     db 50 dup(' '), "$" 
 	_num1S    		db 50 dup(' '), "$" 
 	_num2S    		db 50 dup(' '), "$" 
+	_numResult    	db 50 dup(' '), "$" 
+	_numero1        dw 0                ; Sirve para almacenar el numero 1 en int
+	_numero2        dw 0                ; Sirve para almacenar el numero 2 en int
+	_numero3        dw 0 
+	_calcuResultado dw 0                ; Sirve para almacenar el Resultado
+
 
 	; ************** [FILE] **************
 	_bufferInput    db 50 dup('$')
