@@ -631,7 +631,28 @@ getCompare macro compare1, compare2
 
 
 		Ldivision:
+			xor ax, ax
+			String_Int _num1S
+			mov _numero1, ax
 
+			xor ax, ax
+			String_Int _num2S
+			mov _numero2, ax
+
+			mov ax,_numero1    
+	        cwd                 ; Convertimos a dobleword
+	        mov bx,_numero2    
+	        idiv bx             ; ax/bx ax = Resultado
+
+	        mov _calcuResultado,ax  ; guardamos en calcuIN1
+	        Int_String _numResult ; convierte el numero guardado en ax
+
+	        GetPrint _salto
+	        GetPrint _RESULT
+	        GetPrint compare1
+	        GetPrint _salto
+	        GetPrint _numResult
+	        
 			jmp Lsalida
 
 		Lmultiplicacion:
@@ -649,7 +670,7 @@ getCompare macro compare1, compare2
 	        mov _calcuResultado,ax
 	        mov ax,_calcuResultado
 	        Int_String _numResult ; convierte el numero guardado en ax
-	        
+
 	        GetPrint _salto
 	        GetPrint _RESULT
 	        GetPrint compare1
