@@ -866,3 +866,296 @@ reporte macro
 	GetWriteFile _reporteHandle, _Reporte29S
 
 endm
+
+
+
+GetShowMayor macro txt
+	local Lsalida, Lh, Lo, Lw, Lspace, Lm, La, Ly, Lo1, Lr, mayor
+	
+	push ax
+  	push si
+  	push di 
+
+  	xor si, si 
+	xor di, di 
+	xor ax, ax
+
+	cmp txt[si], 73H ; Codigo ASCCI [s -> Hexadecimal]
+    je Lh
+	cmp txt[si], 53H ; Codigo ASCCI [S -> Hexadecimal]
+    je Lh	
+    jmp Lsalida	
+
+    Lh:	
+
+    	inc si
+    	cmp txt[si], 68H ; Codigo ASCCI [h -> Hexadecimal]
+	    je Lo
+		cmp txt[si], 48H ; Codigo ASCCI [H -> Hexadecimal]
+	    je Lo
+    	jmp Lsalida
+
+    Lo:
+
+		inc si
+		cmp txt[si], 6FH ; Codigo ASCCI [o -> Hexadecimal]
+	    je Lw
+		cmp txt[si], 4FH ; Codigo ASCCI [O -> Hexadecimal]
+	    je Lw
+		jmp Lsalida
+
+	Lw:
+
+		inc si
+    	cmp txt[si], 77H ; Codigo ASCCI [w -> Hexadecimal]
+	    je Lspace
+		cmp txt[si], 57H ; Codigo ASCCI [W -> Hexadecimal]
+	    je Lspace
+    	jmp Lsalida
+
+	Lspace:
+
+		inc si
+		cmp txt[si], 20H ; Codigo ASCCI [space -> Hexadecimal]
+		je Lm
+
+		jmp Lsalida
+
+	Lm:
+		inc si
+		cmp txt[si], 6dh ; Codigo ASCCI [m -> Hexadecimal]
+		je La
+		cmp txt[si], 4dh ; Codigo ASCCI [M -> Hexadecimal]
+		je La
+
+		jmp Lsalida
+
+	La:
+		inc si
+		cmp txt[si], 61h ; Codigo ASCCI [a-> Hexadecimal]
+		je Ly
+		cmp txt[si], 41h ; Codigo ASCCI [A -> Hexadecimal]
+		je Ly
+
+		jmp Lsalida
+
+	; Le:
+	; 	inc si
+	; 	cmp txt[si], 65h ; Codigo ASCCI [e-> Hexadecimal]
+	; 	je Lm
+	; 	cmp txt[si], 45h ; Codigo ASCCI [E -> Hexadecimal]
+	; 	je Lm
+
+	; 	jmp Lsalida
+
+	Ly:
+		inc si
+		cmp txt[si], 79h ; Codigo ASCCI [y-> Hexadecimal]
+		je Lo1
+		cmp txt[si], 59h ; Codigo ASCCI [Y -> Hexadecimal]
+		je Lo1
+
+		jmp Lsalida
+
+	Lo1:
+
+		inc si
+		cmp txt[si], 6FH ; Codigo ASCCI [o -> Hexadecimal]
+	    je Lr
+		cmp txt[si], 4FH ; Codigo ASCCI [O -> Hexadecimal]
+	    je Lr
+		jmp Lsalida
+
+	Lr:
+		inc si
+		cmp txt[si], 72h ; Codigo ASCCI [r -> Hexadecimal]
+		je mayor
+		cmp txt[si], 52h ; Codigo ASCCI [R -> Hexadecimal]
+		je mayor
+
+		jmp Lsalida
+	
+	mayor:
+		GetPrint _ResultMayor
+		GetPrint _MayorS
+		GetPrint _salto
+
+    Lsalida:
+
+  		pop di 
+  		pop si
+  		pop ax
+
+endm
+
+GetShowMenor macro txt
+	local Lsalida, Lh, Lo, Lw, Lspace, Lm, Le, Ln, Lo1, Lr, menor
+	
+	push ax
+  	push si
+  	push di 
+
+  	xor si, si 
+	xor di, di 
+	xor ax, ax
+
+	cmp txt[si], 73H ; Codigo ASCCI [s -> Hexadecimal]
+    je Lh
+	cmp txt[si], 53H ; Codigo ASCCI [S -> Hexadecimal]
+    je Lh	
+    jmp Lsalida	
+
+    Lh:	
+
+    	inc si
+    	cmp txt[si], 68H ; Codigo ASCCI [h -> Hexadecimal]
+	    je Lo
+		cmp txt[si], 48H ; Codigo ASCCI [H -> Hexadecimal]
+	    je Lo
+    	jmp Lsalida
+
+    Lo:
+
+		inc si
+		cmp txt[si], 6FH ; Codigo ASCCI [o -> Hexadecimal]
+	    je Lw
+		cmp txt[si], 4FH ; Codigo ASCCI [O -> Hexadecimal]
+	    je Lw
+		jmp Lsalida
+
+	Lw:
+
+		inc si
+    	cmp txt[si], 77H ; Codigo ASCCI [w -> Hexadecimal]
+	    je Lspace
+		cmp txt[si], 57H ; Codigo ASCCI [W -> Hexadecimal]
+	    je Lspace
+    	jmp Lsalida
+
+	Lspace:
+
+		inc si
+		cmp txt[si], 20H ; Codigo ASCCI [space -> Hexadecimal]
+		je Lm
+
+		jmp Lsalida
+
+	Lm:
+		inc si
+		cmp txt[si], 6dh ; Codigo ASCCI [m -> Hexadecimal]
+		je Le
+		cmp txt[si], 4dh ; Codigo ASCCI [M -> Hexadecimal]
+		je Le
+
+		jmp Lsalida
+
+	Le:
+		inc si
+		cmp txt[si], 65h ; Codigo ASCCI [e-> Hexadecimal]
+		je Ln
+		cmp txt[si], 45h ; Codigo ASCCI [E -> Hexadecimal]
+		je Ln
+
+		jmp Lsalida
+
+	Ln:
+		inc si
+		cmp txt[si], 6eh ; Codigo ASCCI [n-> Hexadecimal]
+		je Lo1
+		cmp txt[si], 4eh ; Codigo ASCCI [N -> Hexadecimal]
+		je Lo1
+
+		jmp Lsalida
+
+	Lo1:
+
+		inc si
+		cmp txt[si], 6FH ; Codigo ASCCI [o -> Hexadecimal]
+	    je Lr
+		cmp txt[si], 4FH ; Codigo ASCCI [O -> Hexadecimal]
+	    je Lr
+		jmp Lsalida
+
+	Lr:
+		inc si
+		cmp txt[si], 72h ; Codigo ASCCI [r -> Hexadecimal]
+		je menor
+		cmp txt[si], 52h ; Codigo ASCCI [R -> Hexadecimal]
+		je menor
+
+		jmp Lsalida
+	
+	menor:
+		GetPrint _ResultMenor
+		GetPrint _MenorS
+		GetPrint _salto
+
+    Lsalida:
+
+  		pop di 
+  		pop si
+  		pop ax
+
+endm
+
+
+
+GetExit macro txt
+	local Lsalida, Lx, Li, Ltt, Lexit
+	
+	push ax
+  	push si
+  	push di 
+
+  	xor si, si 
+	xor di, di 
+	xor ax, ax
+
+	cmp txt[si], 65h ; Codigo ASCCI [e-> Hexadecimal]
+	je Lx
+	cmp txt[si], 45h ; Codigo ASCCI [E -> Hexadecimal]
+	je Lx
+
+	jmp Lsalida
+
+    Lx:	
+
+    	inc si
+    	cmp txt[si], 78H ; Codigo ASCCI [x -> Hexadecimal]
+	    je Li
+		cmp txt[si], 58H ; Codigo ASCCI [x -> Hexadecimal]
+	    je Li
+    	jmp Lsalida
+
+    Li:
+
+		inc si
+		cmp txt[si], 69H ; Codigo ASCCI [i -> Hexadecimal]
+	    je Ltt
+		cmp txt[si], 49H ; Codigo ASCCI [I -> Hexadecimal]
+	    je Ltt
+		jmp Lsalida
+
+	Ltt:
+
+		inc si
+    	cmp txt[si], 74H ; Codigo ASCCI [t -> Hexadecimal]
+	    je Lexit
+		cmp txt[si], 54H ; Codigo ASCCI [T -> Hexadecimal]
+	    je Lexit
+    	jmp Lsalida
+
+    Lexit:
+    	pop di 
+  		pop si
+  		pop ax
+  		jmp LMenu
+
+    Lsalida:
+
+  		pop di 
+  		pop si
+  		pop ax
+
+endm
+

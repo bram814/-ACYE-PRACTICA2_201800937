@@ -40,6 +40,8 @@ include File.asm
 	_false          db 0ah,0dh,               "false$"
 	_choose        	db        	              "Escoga Opcion: $"
 	_RESULT        	db        	              "Resultado de $"
+	_ResultMayor   	db        	              "Estadistico Mayor: $"
+	_ResultMenor   	db        	              "Estadistico Menor: $"
 	TK_DOSPUNTOS  	db 0ah,0dh, ": $"
 
 	; ************** [CHARGE FILE] **************
@@ -220,9 +222,12 @@ include File.asm
 	    	GetPrint _salto
 	    	CALL sendConsole
 	    	GetInputMax _inputMax
+	    	GetExit _inputMax
+	    	GetShowMayor _inputMax
+	    	GetShowMenor _inputMax
 	    	GetShow _inputMax, _operator, _bufferInfo, _operatorAux
 
-	    	jmp LMenu
+	    	jmp LConsole
 
 	    Lerror1:
 	        GetPrint _salto
