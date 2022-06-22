@@ -1,4 +1,31 @@
 ; **************************** [MACROS] ****************************
+PrintN macro Num    ;Print a digit
+    xor ax,ax
+    mov dl,Num
+    add dl,48
+    mov ah,02h
+    int 21h
+endm
+
+Print16 macro Regis ;Print a 16bit number
+    local zero,noz
+    mov bx,4    ;Moves 4 into bx
+    xor ax,ax   ;Clears ax
+    mov ax,Regis    ;Moves Regis into ax
+    mov cx,10   ;Moves 10 into cx
+    zero:
+        xor dx,dx   ;Clear dx
+        div cx  ;Divide ax by 10
+        push dx ;Push the residue into stack
+        dec bx  ;Decrease counter
+        jnz zero    ;Jump if bx is not zero to zero
+        xor bx,4    ;Set bx to 4
+    noz:
+        pop dx  ;Pop dx from sttack
+        PrintN dl   ;Print digit in dl
+        dec bx  ;Decrease bx
+        jnz noz ;Jump if bx is not zero to noz
+endm
 ; ************** [IMPRIMIR] **************
 GetPrint macro buffer
 	MOV AX,@data
@@ -634,10 +661,15 @@ getCompare macro compare1, compare2
 			xor ax, ax
 			String_Int _num1S
 			mov _numero1, ax
+			GetMayor _numero1
+			GetMenor _numero1
 
 			xor ax, ax
 			String_Int _num2S
 			mov _numero2, ax
+			GetMayor _numero2
+			GetMenor _numero2
+
 
 			mov ax,_numero1    
 	        cwd                 ; Convertimos a dobleword
@@ -652,17 +684,21 @@ getCompare macro compare1, compare2
 	        GetPrint compare1
 	        GetPrint _salto
 	        GetPrint _numResult
-	        
+
 			jmp Lsalida
 
 		Lmultiplicacion:
 			xor ax, ax
 			String_Int _num1S
 			mov _numero1, ax
+			GetMayor _numero1
+			GetMenor _numero1
 
 			xor ax, ax
 			String_Int _num2S
 			mov _numero2, ax
+			GetMayor _numero2
+			GetMenor _numero2
 
 			mov ax, _numero1
 	        mov bx, _numero2
@@ -683,10 +719,16 @@ getCompare macro compare1, compare2
 			xor ax, ax
 			String_Int _num1S
 			mov _numero1, ax
+			GetMayor _numero1
+			GetMenor _numero1
+
 
 			xor ax, ax
 			String_Int _num2S
 			mov _numero2, ax
+			GetMayor _numero2
+			GetMenor _numero2
+
 
 			mov dx, _numero1
 	        sub dx, _numero2
@@ -706,10 +748,15 @@ getCompare macro compare1, compare2
 			xor ax, ax
 			String_Int _num1S
 			mov _numero1, ax
+			GetMayor _numero1
+			GetMenor _numero1
+
 
 			xor ax, ax
 			String_Int _num2S
 			mov _numero2, ax
+			GetMayor _numero2
+			GetMenor _numero2
 
 
 			mov dx, _numero1
@@ -733,5 +780,89 @@ getCompare macro compare1, compare2
 	Lsalida:
 		pop ax
 		pop si
+
+endm
+
+GetMayor macro d1
+	Local Lsalida, mayor, Lp
+	push ax
+
+	mov ax, d1
+
+	cmp _Mayor, ax
+	jg mayor
+
+	jmp Lsalida
+
+	mayor:
+		mov _Mayor, ax
+		Int_String _MayorS
+		; GetPrint _MayorS
+		jmp Lsalida
+
+	Lsalida:
+		pop ax
+endm
+
+
+GetMenor macro d1
+	Local Lsalida, menor
+	push ax
+
+	mov ax, d1
+	cmp _Menor, ax
+	jl menor
+
+	jmp Lsalida
+
+	menor:
+		mov _Menor, ax
+		Int_String _MenorS
+		; GetPrint _MenorS
+		jmp Lsalida
+
+	Lsalida:
+		pop ax
+endm
+
+
+; REPORTE
+reporte macro
+
+	mov _reporteHandle,0
+	GetCreateFile _createFile, _reporteHandle
+
+	GetWriteFile _reporteHandle, _Reporte0S
+	GetWriteFile _reporteHandle, _Reporte1S
+	GetWriteFile _reporteHandle, _Reporte2S
+	GetWriteFile _reporteHandle, _Reporte3S
+	GetWriteFile _reporteHandle, _Reporte4S
+	GetWriteFile _reporteHandle, _Reporte5S
+	GetWriteFile _reporteHandle, _Reporte6S
+	GetWriteFile _reporteHandle, _Reporte7S
+
+	GetWriteDate _reporteHandle
+
+	GetWriteFile _reporteHandle, _Reporte18S
+
+	GetWriteFile _reporteHandle, _Reporte19S
+	GetWriteFile _reporteHandle, _MediaS
+	GetWriteFile _reporteHandle, _Reporte31S
+
+	GetWriteFile _reporteHandle, _Reporte20S
+	GetWriteFile _reporteHandle, _MedianaS
+	GetWriteFile _reporteHandle, _Reporte31S
+
+	GetWriteFile _reporteHandle, _Reporte21S
+	GetWriteFile _reporteHandle, _MenorS
+	GetWriteFile _reporteHandle, _Reporte31S
+
+	GetWriteFile _reporteHandle, _Reporte22S
+	GetWriteFile _reporteHandle, _MayorS
+
+	GetWriteFile _reporteHandle, _Reporte25S
+
+	GetWriteFile _reporteHandle, _Reporte28S
+	GetWriteFile _reporteHandle, _Reporte29S
 
 endm

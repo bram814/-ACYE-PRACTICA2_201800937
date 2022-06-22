@@ -33,7 +33,7 @@ include File.asm
 	_menu1          db 0ah,0dh,               "1) CARGAR ARCHIVO$"
 	_menu2          db 0ah,0dh,               "2) CONSOLA$"
 	_menu3        	db 0ah,0dh,               "3) SALIR$"
-
+	
 	; ************** [CHOOSE] **************
 	_salto         	db 0ah,0dh,               "$"
 	_true           db 0ah,0dh,               "true$"
@@ -80,6 +80,66 @@ include File.asm
 	_bufferInfo     db 50000 dup('$')
 	contadorBuffer  dw 0 ; Contador para todos los WRITE FILE, para escribir sin que se vean los $
 
+	_createFile     db 'reporte.jso' ; variable para crear archivo
+	_reporteHandle  dw ?
+	_Reporte0S      db 0ah,0dh,               "{",'$'
+	_Reporte1S      db 0ah,0dh,               '    "reporte":{ $'
+	_Reporte2S      db 0ah,0dh,               '        "Datos":{ $'
+	_Reporte3S      db 0ah,0dh,               '            "Nombre":"Jose Abraham Solorzano Herrera",$'
+	_Reporte4S      db 0ah,0dh,               '            "Carnet":"201800937",$'
+	_Reporte5S      db 0ah,0dh,               '            "Curso":"Arquitectura de compiladores y ensambladores 1",$'
+	_Reporte6S      db 0ah,0dh,               '            "Seccion":"A"$'
+	_Reporte7S      db 0ah,0dh,               '        }, $'
+	_Reporte8S      db 0ah,0dh,               '        "Fecha":{ $'
+	_Reporte9S      db 0ah,0dh,               '            "Dia":$'
+	_Reporte10S     db 0ah,0dh,               '            "Mes":$'
+	_Reporte11S     db 0ah,0dh,               '            "Año":$'
+	_Reporte12S     db 0ah,0dh,               '        }, $'
+	_Reporte13S     db 0ah,0dh,               '        "Hora":{ $'
+	_Reporte14S     db 0ah,0dh,               '            "Hora":$'
+	_Reporte15S     db 0ah,0dh,               '            "Minuto":$'
+	_Reporte16S     db 0ah,0dh,               '            "Segundo":$'
+	_Reporte17S     db 0ah,0dh,               '        }, $'
+	_Reporte18S     db 0ah,0dh,               '        "Resultados":{ $'
+	_Reporte19S     db 0ah,0dh,               '            "Media":$'
+	_Reporte20S     db 0ah,0dh,               '            "Mediana":$'
+	_Reporte21S     db 0ah,0dh,               '            "Menor":$'
+	_Reporte22S     db 0ah,0dh,               '            "Mayor":$'
+	_Reporte25S     db 0ah,0dh,               '        }, $'
+	_Reporte26S     db 0ah,0dh,               '        "Operaciones":{ $'
+	_Reporte27S     db 0ah,0dh,               '        }$'
+	_Reporte28S     db 0ah,0dh,               '    }$'
+	_Reporte29S     db 0ah,0dh,               '}$'
+	_Reporte30S     db                        '"$'
+	_Reporte31S     db                        ',$'
+
+	_digito1 db 0
+	_digito2 db 0
+
+	_Media 	 dw 0
+	_Mediana dw 0
+	_Menor   dw 0 
+	_Mayor   dw 0 
+
+	_MediaS  	db 10 dup(' '), "$" 
+	_MedianaS   db 10 dup(' '), "$" 
+	_MenorS  	db 10 dup(' '), "$" 
+	_MayorS  	db 10 dup(' '), "$" 
+
+	_digitoFDia1  db 0
+	_digitoFDia2  db 0
+	_digitoFMes1  db 0
+	_digitoFMes2  db 0
+	_digitoFYear1 db 0
+	_digitoFYear2 db 0
+
+	_digitoHHora1 db 0
+	_digitoHHora2 db 0
+	_digitoHMin1  db 0
+	_digitoHMin2  db 0
+	_digitoHSec1  db 0
+	_digitoHSec2  db 0
+	
 	; ================ SEGMENTO DE PROC ================
 
 	; **************************** [IDENTIFICADOR] **************************** 
@@ -157,7 +217,6 @@ include File.asm
 	        jmp LMenu
 
 	    LConsole:
-	    	GetPrint _bufferInfo
 	    	GetPrint _salto
 	    	CALL sendConsole
 	    	GetInputMax _inputMax
@@ -165,8 +224,7 @@ include File.asm
 
 	    	jmp LMenu
 
-
-	     Lerror1:
+	    Lerror1:
 	        GetPrint _salto
 	        GetPrint _error1
 	        jmp Lmenu
@@ -192,6 +250,10 @@ include File.asm
 	        jmp Lout
 
 		Lout:
+			GetPrint _salto
+
+			reporte
+        
 			MOV ah,4ch
 			int 21h
 
