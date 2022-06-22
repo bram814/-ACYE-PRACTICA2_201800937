@@ -1159,3 +1159,247 @@ GetExit macro txt
 
 endm
 
+GetShowMedia macro txt
+	local Lsalida, Lh, Lo, Lw, Lspace, Lm, Le, Ld, Li, La, media
+	
+	push ax
+  push si
+  push di 
+
+  xor si, si 
+	xor di, di 
+	xor ax, ax
+
+	cmp txt[si], 73H ; Codigo ASCCI [s -> Hexadecimal]
+  je Lh
+	cmp txt[si], 53H ; Codigo ASCCI [S -> Hexadecimal]
+  je Lh	
+  jmp Lsalida	
+
+  Lh:		
+
+  	inc si
+  	cmp txt[si], 68H ; Codigo ASCCI [h -> Hexadecimal]
+    je Lo
+		cmp txt[si], 48H ; Codigo ASCCI [H -> Hexadecimal]
+    je Lo
+  	jmp Lsalida
+
+  Lo:
+
+		inc si
+	  cmp txt[si], 6FH ; Codigo ASCCI [o -> Hexadecimal]
+    je Lw
+		cmp txt[si], 4FH ; Codigo ASCCI [O -> Hexadecimal]
+    je Lw
+		jmp Lsalida
+
+	Lw:
+
+		inc si
+  	cmp txt[si], 77H ; Codigo ASCCI [w -> Hexadecimal]
+    je Lspace
+		cmp txt[si], 57H ; Codigo ASCCI [W -> Hexadecimal]
+    je Lspace
+  	jmp Lsalida
+
+	Lspace:
+
+		inc si
+		cmp txt[si], 20H ; Codigo ASCCI [space -> Hexadecimal]
+		je Lm
+
+		jmp Lsalida
+
+	Lm:
+		inc si
+		cmp txt[si], 6dh ; Codigo ASCCI [m -> Hexadecimal]
+		je Le
+		cmp txt[si], 4dh ; Codigo ASCCI [M -> Hexadecimal]
+		je Le
+
+		jmp Lsalida
+
+	Le:
+		inc si
+		cmp txt[si], 65h ; Codigo ASCCI [e-> Hexadecimal]
+		je Ld
+		cmp txt[si], 45h ; Codigo ASCCI [E -> Hexadecimal]
+		je Ld
+
+		jmp Lsalida
+
+	Ld:
+		inc si
+		cmp txt[si], 64h ; Codigo ASCCI [d-> Hexadecimal]
+		je Li
+		cmp txt[si], 44h ; Codigo ASCCI [D -> Hexadecimal]
+		je Li
+
+		jmp Lsalida
+
+	Li:
+
+		inc si
+		cmp txt[si], 69H ; Codigo ASCCI [i -> Hexadecimal]
+	    je La
+		cmp txt[si], 49H ; Codigo ASCCI [I -> Hexadecimal]
+	    je La
+		jmp Lsalida
+
+	La:
+		inc si
+		cmp txt[si], 61h ; Codigo ASCCI [a -> Hexadecimal]
+		je media
+		cmp txt[si], 41h ; Codigo ASCCI [A -> Hexadecimal]
+		je media
+
+		jmp Lsalida
+	
+	media:
+		inc si
+		cmp txt[si], 6eh ; Codigo ASCCI [n-> Hexadecimal]
+		je Lsalida
+		cmp txt[si], 4eh ; Codigo ASCCI [N -> Hexadecimal]
+		je Lsalida
+		GetPrint _ResultMedia
+		GetPrint _MediaS
+		GetPrint _salto
+
+    Lsalida:
+
+  		pop di 
+  		pop si
+  		pop ax
+
+endm
+
+
+GetShowMediana macro txt
+	local Lsalida, Lh, Lo, Lw, Lspace, Lm, Le, Ld, Li, La, Ln, La1, mediana
+	
+	push ax
+  push si
+  push di 
+
+  xor si, si 
+	xor di, di 
+	xor ax, ax
+
+	cmp txt[si], 73H ; Codigo ASCCI [s -> Hexadecimal]
+  je Lh
+	cmp txt[si], 53H ; Codigo ASCCI [S -> Hexadecimal]
+  je Lh	
+  jmp Lsalida	
+
+    Lh:	
+
+    	inc si
+    	cmp txt[si], 68H ; Codigo ASCCI [h -> Hexadecimal]
+	    je Lo
+		cmp txt[si], 48H ; Codigo ASCCI [H -> Hexadecimal]
+	    je Lo
+    	jmp Lsalida
+
+    Lo:
+
+		inc si
+		cmp txt[si], 6FH ; Codigo ASCCI [o -> Hexadecimal]
+	    je Lw
+		cmp txt[si], 4FH ; Codigo ASCCI [O -> Hexadecimal]
+	    je Lw
+		jmp Lsalida
+
+	Lw:
+
+		inc si
+    	cmp txt[si], 77H ; Codigo ASCCI [w -> Hexadecimal]
+	    je Lspace
+		cmp txt[si], 57H ; Codigo ASCCI [W -> Hexadecimal]
+	    je Lspace
+    	jmp Lsalida
+
+	Lspace:
+
+		inc si
+		cmp txt[si], 20H ; Codigo ASCCI [space -> Hexadecimal]
+		je Lm
+
+		jmp Lsalida
+
+	Lm:
+		inc si
+		cmp txt[si], 6dh ; Codigo ASCCI [m -> Hexadecimal]
+		je Le
+		cmp txt[si], 4dh ; Codigo ASCCI [M -> Hexadecimal]
+		je Le
+
+		jmp Lsalida
+
+	Le:
+		inc si
+		cmp txt[si], 65h ; Codigo ASCCI [e-> Hexadecimal]
+		je Ld
+		cmp txt[si], 45h ; Codigo ASCCI [E -> Hexadecimal]
+		je Ld
+
+		jmp Lsalida
+
+	Ld:
+		inc si
+		cmp txt[si], 64h ; Codigo ASCCI [d-> Hexadecimal]
+		je Li
+		cmp txt[si], 44h ; Codigo ASCCI [D -> Hexadecimal]
+		je Li
+		jmp Lsalida
+
+	Li:
+
+		inc si
+		cmp txt[si], 69H ; Codigo ASCCI [i -> Hexadecimal]
+	    je La
+		cmp txt[si], 49H ; Codigo ASCCI [I -> Hexadecimal]
+	    je La
+		jmp Lsalida
+
+	La:
+		inc si
+		cmp txt[si], 61h ; Codigo ASCCI [a -> Hexadecimal]
+		je Ln
+		cmp txt[si], 41h ; Codigo ASCCI [A -> Hexadecimal]
+		je Ln
+
+		jmp Lsalida
+
+	Ln:
+		inc si
+		cmp txt[si], 6eh ; Codigo ASCCI [n-> Hexadecimal]
+		je La1
+		cmp txt[si], 4eh ; Codigo ASCCI [N -> Hexadecimal]
+		je La1
+
+		jmp Lsalida
+
+	La1:
+		inc si
+		cmp txt[si], 61h ; Codigo ASCCI [a -> Hexadecimal]
+		je mediana
+		cmp txt[si], 41h ; Codigo ASCCI [A -> Hexadecimal]
+		je mediana
+
+		jmp Lsalida
+
+	
+	mediana:
+		GetPrint _ResultMediana	
+		GetPrint _MedianaS
+		GetPrint _salto
+		jmp Lsalida
+  Lsalida:
+
+  		pop di 
+  		pop si
+  		pop ax
+
+endm
+

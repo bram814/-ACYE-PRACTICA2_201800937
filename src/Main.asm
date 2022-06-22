@@ -42,6 +42,8 @@ include File.asm
 	_RESULT        	db        	              "Resultado de $"
 	_ResultMayor   	db        	              "Estadistico Mayor: $"
 	_ResultMenor   	db        	              "Estadistico Menor: $"
+	_ResultMedia   	db        	              "Estadistico Media: $"
+	_ResultMediana 	db        	              "Estadistico Mediana: $"
 	TK_DOSPUNTOS  	db 0ah,0dh, ": $"
 
 	; ************** [CHARGE FILE] **************
@@ -225,6 +227,8 @@ include File.asm
 	    	GetExit _inputMax
 	    	GetShowMayor _inputMax
 	    	GetShowMenor _inputMax
+	    	GetShowMedia _inputMax
+	    	GetShowMediana _inputMax
 	    	GetShow _inputMax, _operator, _bufferInfo, _operatorAux
 
 	    	jmp LConsole

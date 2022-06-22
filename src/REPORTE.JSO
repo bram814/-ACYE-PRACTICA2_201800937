@@ -8,7 +8,7 @@
             "Seccion":"A"
         }, 
         "Fecha":{ 
-            "Dia":21,
+            "Dia":22,
 
             "Mes":06,
 
@@ -16,18 +16,18 @@
 
         }, 
         "Hora":{ 
-            "Hora":23,
+            "Hora":10,
 
-            "Minuto":49,
+            "Minuto":20,
 
-            "Segundo":38
+            "Segundo":16
 
         }, 
         "Resultados":{ 
             "Media":          ,
             "Mediana":          ,
-            "Menor":02,
-            "Mayor":-30
+            "Menor":          ,
+            "Mayor":          
         }, 
     }
 }
