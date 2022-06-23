@@ -236,7 +236,7 @@ endm
 
 
 Analyzer macro txt, compare, operator
-	local Lsalida, Ls1, L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, L20, L21, L22, L23, L24, L25, L26, L27, L200, L700, L110, L150, L170, L180
+	local Lsalida, Ls1, L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, L20, L21, L22, L23, L24, L25, L26, L27, L28, L200, L700, L110, L150, L170, L180
 	
 
 	push ax
@@ -259,6 +259,7 @@ Analyzer macro txt, compare, operator
 
 	L0:
 		inc si
+		xor di, di
 		cmp txt[si], 22h ; Codigo ASCCI [" -> Hexadecimal]
 		je L1
 		jmp L0
@@ -266,11 +267,20 @@ Analyzer macro txt, compare, operator
 	L1: ; conca Padre
 
 		inc si
+		xor ax, ax
+		mov al, txt[si]
+
 		cmp txt[si], 22h ; Codigo ASCCI [" -> Hexadecimal]
-		je L2
+		je L28
+		mov _padre[di], al
+		inc di
 
 		jmp L1
 
+	L28:
+		mov _padre[di], "$"
+		xor di, di
+		jmp L2
 	L2:
 
 		inc si
@@ -865,6 +875,8 @@ reporte macro
 	GetWriteFile _reporteHandle, _Reporte28S
 	GetWriteFile _reporteHandle, _Reporte29S
 
+	GetCloseFile _reporteHandle
+
 endm
 
 
@@ -1395,6 +1407,55 @@ GetShowMediana macro txt
 		GetPrint _MedianaS
 		GetPrint _salto
 		jmp Lsalida
+  Lsalida:
+
+  		pop di 
+  		pop si
+  		pop ax
+
+endm
+
+
+GetShowPadre macro txt
+	local Lsalida, Lh, Lo, Lw, Lspace, padre, L0,LE
+	;GetPrint _padre
+	push ax
+  push si
+  push di 
+
+  xor si, si 
+	xor di, di 
+	xor ax, ax
+
+	
+	mov al, txt[si]
+	cmp _padre[di], al
+	je L0
+	jne Lsalida
+
+	L0:
+		
+		inc si
+		inc di
+		cmp _padre[si], 24h
+		je LE
+
+		xor ax, ax
+		mov al, txt[si]
+		cmp _padre[si], al
+		je L0
+		jne Lsalida
+
+
+		jmp L0
+
+	LE:
+
+		GetPrint _salto
+		GetPrint _Reporte00S
+		reporte
+		jmp Lsalida
+
   Lsalida:
 
   		pop di 

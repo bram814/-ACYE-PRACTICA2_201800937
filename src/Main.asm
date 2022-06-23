@@ -69,6 +69,7 @@ include File.asm
 	_operator       db 50 dup(' '), "$" 
 	_operatorAux    db 50 dup('$') 
 	_aritmethic     db 50 dup(' '), "$" 
+	_padre          db 50 dup('reporte.jso$')
 	_num1S    		db 50 dup(' '), "$" 
 	_num2S    		db 50 dup(' '), "$" 
 	_numResult    	db 50 dup(' '), "$" 
@@ -84,6 +85,7 @@ include File.asm
 	_bufferInfo     db 50000 dup('$')
 	contadorBuffer  dw 0 ; Contador para todos los WRITE FILE, para escribir sin que se vean los $
 
+	_Reporte00S     db 0ah,0dh,               "Reporte Generado",'$'
 	_createFile     db 'reporte.jso' ; variable para crear archivo
 	_reporteHandle  dw ?
 	_Reporte0S      db 0ah,0dh,               "{",'$'
@@ -224,12 +226,14 @@ include File.asm
 	    	GetPrint _salto
 	    	CALL sendConsole
 	    	GetInputMax _inputMax
+
 	    	GetExit _inputMax
 	    	GetShowMayor _inputMax
 	    	GetShowMenor _inputMax
 	    	GetShowMedia _inputMax
 	    	GetShowMediana _inputMax
 	    	GetShow _inputMax, _operator, _bufferInfo, _operatorAux
+	    	GetShowPadre _inputMax
 
 	    	jmp LConsole
 
@@ -259,10 +263,10 @@ include File.asm
 	        jmp Lout
 
 		Lout:
-			GetPrint _salto
+			;GetPrint _salto
 
-			reporte
-        
+			;reporte
+
 			MOV ah,4ch
 			int 21h
 

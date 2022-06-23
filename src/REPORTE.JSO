@@ -16,18 +16,18 @@
 
         }, 
         "Hora":{ 
-            "Hora":10,
+            "Hora":14,
 
-            "Minuto":20,
+            "Minuto":50,
 
-            "Segundo":16
+            "Segundo":26
 
         }, 
         "Resultados":{ 
             "Media":          ,
             "Mediana":          ,
-            "Menor":          ,
-            "Mayor":          
+            "Menor":02,
+            "Mayor":-30
         }, 
     }
 }
