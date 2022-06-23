@@ -196,6 +196,7 @@ include File.asm
 		MOV ES, AX
 
 		CALL identificador
+		GetInput
 
 		LMenu:
 			CALL jump

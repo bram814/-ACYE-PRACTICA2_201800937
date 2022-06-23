@@ -873,9 +873,6 @@ AddOperaciones macro result, dato
 
 
 	Lsalida:
-	GetPrint _salto
-	GetPrint _OPERACIONES
-	GetPrint _salto
 		pop di
 		pop si
 		pop ax

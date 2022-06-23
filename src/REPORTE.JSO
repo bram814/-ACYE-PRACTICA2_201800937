@@ -16,11 +16,11 @@
 
         }, 
         "Hora":{ 
-            "Hora":02,
+            "Hora":03,
 
-            "Minuto":48,
+            "Minuto":34,
 
-            "Segundo":27
+            "Segundo":02
 
         }, 
         "Resultados":{ 
@@ -30,8 +30,7 @@
             "Mayor":-30
         }, 
 		"Operaciones":{
- Operacion1
-:-32,
+ Mediana:-32,
         }
     }
 }
