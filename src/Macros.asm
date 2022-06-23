@@ -788,9 +788,97 @@ getCompare macro compare1, compare2
 		; GetPrint _salto
 		jmp Lsalida
 	Lsalida:
+		
+		AddOperaciones compare1, _numResult
 		pop ax
 		pop si
 
+endm
+
+
+
+AddOperaciones macro result, dato
+	Local Lsalida, L00, L0, L1, L2, L3, L4, L5
+	push ax
+	push si
+	push di
+
+	xor ax, ax
+	xor si, si
+	xor di, di
+
+	cmp _OPERACIONES[si], 3ah ; [ : ]
+	jne L00
+	je L2
+
+	L00:
+		cmp _OPERACIONES[si], 3ah ; [:]
+		jmp L0
+	L2:
+		inc si
+
+		cmp _OPERACIONES[si], 24h ; [,]
+		je L0
+
+		jmp L2
+
+	L0:
+		inc si
+		xor al, al
+		mov al, result[di]
+
+		cmp _OPERACIONES[si], 0ah ; [\n]
+		je L4
+		cmp al, 24h
+		je L4
+
+		mov _OPERACIONES[si], al
+		inc di
+
+		jmp L0
+
+	L4:
+
+			mov _OPERACIONES[si], 3ah ; [:]
+			inc si
+			xor di, di
+			xor al , al
+			xor al, dato[di]
+			mov _OPERACIONES[si], al
+
+			jmp L1
+
+	L1:
+			inc di
+			inc si
+
+			xor al , al
+			xor al, dato[di]
+
+			cmp al, 0ah ; [\n]
+			je L5
+			cmp al, 24h
+			je L5
+
+			mov _OPERACIONES[si], al
+
+			jmp L1
+
+	L5:
+			mov _OPERACIONES[si], 2ch ; [,]
+			inc si
+			mov _OPERACIONES[si], 24h ; [$]
+			inc si
+			jmp Lsalida
+
+
+	Lsalida:
+	GetPrint _salto
+	GetPrint _OPERACIONES
+	GetPrint _salto
+		pop di
+		pop si
+		pop ax
 endm
 
 GetMayor macro d1
@@ -872,8 +960,21 @@ reporte macro
 
 	GetWriteFile _reporteHandle, _Reporte25S
 
+	GetWriteFile _reporteHandle, _salto
+	GetWriteFile _reporteHandle, _Reporte34S
+	GetWriteFile _reporteHandle, _padre
+	GetWriteFile _reporteHandle, _Reporte30S
+	GetWriteFile _reporteHandle, _Reporte32S
+	GetWriteFile _reporteHandle, _Reporte33S
+	GetWriteFile _reporteHandle, _salto
+	GetWriteFile _reporteHandle, _OPERACIONES
+	GetWriteFile _reporteHandle, _Reporte27S
+
 	GetWriteFile _reporteHandle, _Reporte28S
 	GetWriteFile _reporteHandle, _Reporte29S
+
+
+
 
 	GetCloseFile _reporteHandle
 

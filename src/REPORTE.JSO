@@ -8,7 +8,7 @@
             "Seccion":"A"
         }, 
         "Fecha":{ 
-            "Dia":22,
+            "Dia":23,
 
             "Mes":06,
 
@@ -16,11 +16,11 @@
 
         }, 
         "Hora":{ 
-            "Hora":14,
+            "Hora":02,
 
-            "Minuto":50,
+            "Minuto":48,
 
-            "Segundo":26
+            "Segundo":27
 
         }, 
         "Resultados":{ 
@@ -29,5 +29,9 @@
             "Menor":02,
             "Mayor":-30
         }, 
+		"Operaciones":{
+ Operacion1
+:-32,
+        }
     }
 }

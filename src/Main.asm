@@ -67,7 +67,7 @@ include File.asm
 	; ************** [INPUT] **************
 	_inputMax       db 50 dup(' '), "$"
 	_operator       db 50 dup(' '), "$" 
-	_operatorAux    db 50 dup('$') 
+	_operatorAux    db 50 dup('$'), "$"
 	_aritmethic     db 50 dup(' '), "$" 
 	_padre          db 50 dup('reporte.jso$')
 	_num1S    		db 50 dup(' '), "$" 
@@ -118,9 +118,14 @@ include File.asm
 	_Reporte29S     db 0ah,0dh,               '}$'
 	_Reporte30S     db                        '"$'
 	_Reporte31S     db                        ',$'
+	_Reporte32S     db                        ':$'
+	_Reporte33S     db 		                  '{$'
+	_Reporte34S     db                        '		"$'
 
 	_digito1 db 0
 	_digito2 db 0
+	_contOperaciones db  0
+	_OPERACIONES  	 db 100 dup(' '), "$"
 
 	_Media 	 dw 0
 	_Mediana dw 0
